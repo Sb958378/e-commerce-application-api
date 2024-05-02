@@ -1,44 +1,40 @@
 package com.retail.e_commerce.Entity;
 
+import java.util.List;
+
+import com.retail.e_commerce.enums.AvailabilityStatus;
 import com.retail.e_commerce.enums.UserRole;
+//import com.retail.e_commerce.response_dto.ImageResponse;
 
 import jakarta.persistence.Entity;
-import jakarta.persistence.EnumType;
-import jakarta.persistence.Enumerated;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
-import jakarta.persistence.Inheritance;
-import jakarta.persistence.InheritanceType;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-
 @Entity
 @Setter
 @Getter
-@Builder
 @AllArgsConstructor
+@Builder
 @NoArgsConstructor
-@Inheritance(strategy = InheritanceType.JOINED)
-public class User {
+public class Product {
+	
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	
-	private int userId;
-	private String displayName;
-	private String username;
-	private String email;
-	private String password;
-	@Enumerated(EnumType.STRING)
-	private UserRole userRole;
-	private boolean isEmailVerfied;
-	
-	
-	
-	
-	
+	  private int productId;
+	  private String productName;
+	  private String productDescription;
+	  private int productPrice;
+	  private int productQuantity;
+	  private AvailabilityStatus availabilityStatus;
+//	  private List<ImageResponse>imageResponse;
+	  
+	  
+	  
+	  
 
 }
