@@ -63,9 +63,16 @@ public class JwtService {
 	       
 
 	       private Claims parseJwtClaims(String token) {
-			return Jwts.parserBuilder().setSigningKey(getSignatureKey()).build().parseClaimsJwt(token).getBody();
-	    	   
-	       }
+	    	    return Jwts.parserBuilder()
+	    	            .setSigningKey(getSignatureKey())
+	    	            .build()
+	    	            .parseClaimsJws(token)
+	    	            .getBody();
+	    	}
+	       public Date getIssueDate(String token)
+	   	{
+	   		return  parseJwtClaims(token).getIssuedAt();
+	   	}
 
 
 		

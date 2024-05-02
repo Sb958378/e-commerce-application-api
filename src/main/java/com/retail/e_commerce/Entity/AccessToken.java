@@ -1,8 +1,11 @@
 package com.retail.e_commerce.Entity;
-import java.time.LocalDate;
+
+
+import java.time.LocalDateTime;
 
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.ManyToOne;
 import lombok.AllArgsConstructor;
@@ -19,11 +22,11 @@ import lombok.Setter;
 @NoArgsConstructor
 public class AccessToken {
         @Id
-        @GeneratedValue(generator = "custom")
+        @GeneratedValue(strategy = GenerationType.IDENTITY)
         
 	    private int tokenId;
 	    private String token;
-	    private LocalDate exipration;
+	    private LocalDateTime exipration;
 	    private boolean isBlocked;
 	    
 	    @ManyToOne
