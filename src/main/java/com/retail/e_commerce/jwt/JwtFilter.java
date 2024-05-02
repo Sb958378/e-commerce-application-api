@@ -24,10 +24,17 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.AllArgsConstructor;
 
-@Component
-@AllArgsConstructor
+
+
 public class JwtFilter extends OncePerRequestFilter {
-	
+
+	public JwtFilter(AccessRepo accessRepo, RefreshRepo refreshRepo, JwtService jwtService) {
+		super();
+		this.accessRepo = accessRepo;
+		this.refreshRepo = refreshRepo;
+		this.jwtService = jwtService;
+	}
+
 	private AccessRepo accessRepo;
 	private RefreshRepo refreshRepo;
 	private JwtService jwtService;
@@ -45,8 +52,18 @@ public class JwtFilter extends OncePerRequestFilter {
 			
 		}
 	}
+		 
+//		if(at ==null  && rt==null ) {
+//			System.out.println("it is not present");
+//			
+//		
+//		if(at == null || rt!=null) { 
+//			System.out.println("it at is not present");
+		
+		 
 		if (at != null && rt != null) {
-
+//			System.out.println("it is present");
+           
 			// access token is blocked or not
 
 			if (!accessRepo.existsByTokenAndIsBlocked(at, true)
@@ -55,10 +72,11 @@ public class JwtFilter extends OncePerRequestFilter {
 			}
 			String UserName = jwtService.getusername(at);
 			String userRole = jwtService.getUserRole(at);
-			if(UserName!= null && SecurityContextHolder.getContext().getAuthentication()!=null) {
-             new UsernamePasswordAuthenticationToken(UserName, userRole,
-            		 Collections.singleton(new SimpleGrantedAuthority(userRole)))
-            		 .setDetails(new WebAuthenticationDetails(request));
+			if(UserName!= null && userRole!=null&& SecurityContextHolder.getContext().getAuthentication()==null) {
+				UsernamePasswordAuthenticationToken token = new UsernamePasswordAuthenticationToken(UserName, userRole,
+            		 Collections.singleton(new SimpleGrantedAuthority(userRole)));
+            		token .setDetails(new WebAuthenticationDetails(request));
+           SecurityContextHolder.getContext().setAuthentication(token);
             
 			}
 		}

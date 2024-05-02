@@ -1,6 +1,8 @@
 package com.retail.e_commerce.response_dto;
 
-import java.time.LocalDateTime;
+
+
+
 
 import com.retail.e_commerce.enums.UserRole;
 
@@ -22,8 +24,8 @@ public class AuthResponse {
 	  private String username;
 	  private UserRole userRole;
 	  private boolean isAuthenticated;
-	  private LocalDateTime accessTokenExpiry;
-	  private LocalDateTime refreshTokenExpiry;
+	  private long accessExpiration;
+	  private long refreshExpiration;
 	  
 
 }

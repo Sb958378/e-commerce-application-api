@@ -1,6 +1,10 @@
 package com.retail.e_commerce.util;
 
+import java.util.List;
+
 import org.springframework.stereotype.Component;
+
+import com.retail.e_commerce.response_dto.AddressResponse;
 
 import lombok.Getter;
 
@@ -25,4 +29,5 @@ public class ResponseStructure <T> {
 		
 		
 	}
+
 }

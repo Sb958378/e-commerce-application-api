@@ -1,6 +1,8 @@
 package com.retail.e_commerce.controller;
 
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.web.bind.annotation.CookieValue;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -17,6 +19,7 @@ import com.retail.e_commerce.service.AuthService;
 import com.retail.e_commerce.util.ResponseStructure;
 import com.retail.e_commerce.util.SimpleResponseStructure;
 
+import jakarta.servlet.http.HttpServletResponse;
 import lombok.AllArgsConstructor;
 
 
@@ -26,7 +29,7 @@ import lombok.AllArgsConstructor;
 @RequestMapping("/api/v1")
 @AllArgsConstructor
 
-@CrossOrigin(origins = "http://localhost:5173/")
+@CrossOrigin(origins = "http://localhost:5173/", allowCredentials = "true")
 public class AuthController {
 	
 	
@@ -63,9 +66,27 @@ public class AuthController {
 //	}
   
 	@PostMapping("/login")
-	public ResponseEntity<ResponseStructure<AuthResponse>> login(@RequestBody AuthRequest authRequest) {
+	public ResponseEntity<ResponseStructure<AuthResponse>> login(@RequestBody AuthRequest authRequest, @CookieValue(name = "at",required = false)String accessToken,
+			@CookieValue(name = "rt",required = false)String refreshToken) {
 		   
-		return authService.login(authRequest );
+		return authService.login(authRequest ,accessToken , refreshToken );
+		
+		
+		
+	}
+	
+	
+	@PostMapping("/logout")
+    public ResponseEntity<SimpleResponseStructure> logout(@CookieValue(name = "rt", required = false) String refreshToken,
+                                                          @CookieValue(name = "at" , required = false) String accessToken , HttpServletResponse response) {
+															return authService.logout(accessToken, refreshToken, response);
+		
+	}
+	@PostMapping("/login/refresh")
+	public ResponseEntity<ResponseStructure<AuthResponse>> refreshLogin(@CookieValue(name = "at",required = false)String accesToken,
+			@CookieValue(name = "rt",required = false)String refreshToken)
+	{
+		return authService.refreshLogin(accesToken,refreshToken);
 	}
 	  
 }
